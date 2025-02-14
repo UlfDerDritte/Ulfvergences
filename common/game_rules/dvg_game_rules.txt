@@ -1,14 +1,4 @@
-﻿australia_railroading = {
-	default = australia_disgusting
-
-	australia_railroaded = {
-	}
-
-	australia_disgusting = {
-		
-		
-	}
-}
+﻿
 
 breakaway_cultures = {
 	default = breakaway
@@ -145,6 +135,23 @@ africa_railroading = {
 	}
 
 	africa_dynamic = {
+		
+		
+	}
+}
+
+default_border_control = {
+	default = default_nothing
+
+	default_open_borders = {
+		
+	}
+
+	default_nothing_borders = {
+		
+	}
+
+	default_closed_borders = {
 		
 		
 	}

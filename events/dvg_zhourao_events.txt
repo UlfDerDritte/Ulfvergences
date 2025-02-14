@@ -946,7 +946,6 @@ dvg_zhourao.12 = {
 
                 target_country = c:YLO
 
-                war = yes
 
                 type = dp_rebellion_annex
 
@@ -1027,7 +1026,6 @@ dvg_zhourao.13 = {
 
                 target_country = c:MJN
 
-                war = yes
 
                 type = dp_rebellion_annex
 
@@ -1660,6 +1658,81 @@ dvg_zhourao.20 = {
     
 }
 
+
+# Xinxiang Declares Independence
+dvg_zhourao.21 = {
+    type = country_event
+    placement = ROOT
+
+    title = dvg_zhourao.6.t
+    desc = dvg_zhourao.6.d
+    flavor = dvg_zhourao.6.f
+
+    event_image = {
+        video = "gfx/event_pictures/unspecific_fire.bk2"
+    }
+
+    on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+    on_opened_soundeffect = "event:/SFX/Events/southamerica/war_civilians"
+
+    icon = "gfx/interface/icons/event_icons/event_fire.dds"
+
+    duration = 3
+
+    trigger = {
+        #has_variable = dvg_yaluo_reform_variable_var_2
+        #this = { var:dvg_yaluo_reform_variable_var_2 >= 8 }
+        #has_variable = dvg_one_kongsi
+        #NOT = {
+        #	has_variable = dvg_northern_hui
+        #}
+        exists = c:MJN
+    }
+
+    immediate = {
+        set_variable = dvg_northern_hui
+        create_country = {
+            tag = XXG
+            origin = this
+            state = s:STATE_XINXIANG.region_state:YLO
+        }
+       
+        c:XXG = {
+            change_relations = {
+                country = c:MJN
+                value = 30
+            }
+        }
+
+    }
+
+    # Oh dear
+    option = {
+        name = dvg_zhourao.6.a
+
+
+       
+        add_modifier = {
+            name = dvg_modifier_landowners_purged
+            months = 60
+            is_decaying = yes
+        }
+        ai_chance = {
+            base = 1
+        }
+    }
+    option = {
+        name = dvg_zhourao.6.b
+
+        play_as = c:XXG
+
+
+        ai_chance = {
+            base = 1
+        }
+    }
+}
+
 #dvg_zhourao.1001 = {
 #	type = country_event
 #	placement = ROOT
@@ -1874,11 +1947,17 @@ dvg_zhourao.504 = {
         c:AOT = {
             save_scope_as = scope_AOT
         }
+        c:YLO = {
+            save_scope_as = scope_YLO
+        }
     }
 
     option = {
         name = dvg_zhourao.504.a
         default_option = yes
+        add_journal_entry = {
+            type = je_mianjin_oligarchy
+        }
 
         ai_chance = {
             base = 1
@@ -1930,18 +2009,132 @@ dvg_zhourao.505 = {
 }
 
 
-
-
-
-
-#Zhusha Intro Event
-dvg_zhourao.700 = {
+#Mianjin Success
+dvg_zhourao.506 = {
     type = country_event
     placement = ROOT
 
-    title = dvg_zhourao.700.t
-    desc = dvg_zhourao.700.d
-    flavor = dvg_zhourao.700.f
+    title = dvg_zhourao.506.t
+    desc = dvg_zhourao.506.d
+    flavor = dvg_zhourao.506.f
+
+    event_image = {
+        video = "gfx/event_pictures/unspecific_fire.bk2"
+    }
+
+    on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+    on_opened_soundeffect = "event:/SFX/Events/southamerica/war_civilians"
+
+    icon = "gfx/interface/icons/event_icons/event_fire.dds"
+
+    duration = 3
+
+    trigger = {
+
+    }
+
+    immediate = {
+      
+    }
+
+    # Reports
+    option = {
+        name = dvg_zhourao.506.a
+
+        random_scope_state = {
+            limit = {
+                is_capital = yes
+                is_isolated_from_market = no
+            }
+            add_modifier = {
+                name = dvg_world_city
+                months = 12
+                is_decaying = yes
+            }
+        }
+
+        set_global_variable = mjn_good
+    }
+}
+
+#Mianjin Fail
+dvg_zhourao.507 = {
+    type = country_event
+    placement = ROOT
+
+    title = dvg_zhourao.507.t
+    desc = dvg_zhourao.507.d
+    flavor = dvg_zhourao.507.f
+
+    event_image = {
+        video = "gfx/event_pictures/unspecific_fire.bk2"
+    }
+
+    on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+    on_opened_soundeffect = "event:/SFX/Events/southamerica/war_civilians"
+
+    icon = "gfx/interface/icons/event_icons/event_fire.dds"
+
+    duration = 3
+
+    trigger = {
+
+    }
+
+    immediate = {
+        ruler = {
+            exile_character = yes
+        }
+        activate_law = law_type:law_appointed_bureaucrats
+        activate_law = law_type:law_total_separation
+
+        set_ruling_interest_groups = {
+            ig_intelligentsia
+        }
+    }
+
+    # Join Yaluo
+    option = {
+        name = dvg_zhourao.507.a
+        trigger = {
+            exists = c:YLO
+        }
+        set_variable = to_join_zhr
+        
+        ai_chance = {
+            base = 100
+        }
+    }
+
+      # Don't Join
+      option = {
+        name = dvg_zhourao.507.b
+        default_option = yes
+
+        activate_law = law_type:law_census_voting
+        call_election = {
+            months = 1
+        }
+        
+        add_loyalists = {
+            value = 0.10
+        }
+
+        ai_chance = {
+            base = 1
+        }
+    }
+}
+
+
+#Zhusha Intro Event
+dvg_zhourao.508 = {
+    type = country_event
+    placement = ROOT
+
+    title = dvg_zhourao.508.t
+    desc = dvg_zhourao.508.d
+    flavor = dvg_zhourao.508.f
 
     event_image = {
         video = "gfx/event_pictures/asia_dead_cattle_poor_harvest.bk2"
@@ -1955,24 +2148,40 @@ dvg_zhourao.700 = {
     duration = 3
 
     trigger = {
+        
     }
 
     immediate = {
-        rel:confucian = {
-            save_scope_as = scope_confucian
+        random_country = {
+            limit = {
+                has_variable = to_join_zhr
+            }
+            save_scope_as = scope_joiner
         }
+        
     }
 
     # We must ensure our survival by claiming the desert!
     option = {
-        name = dvg_zhourao.700.a
+        name = dvg_zhourao.508.a
+        default_option = yes
+
+
+        annex = scope:scope_joiner
+        
+
+        ai_chance = {
+            base = 1
+        }
+    }
+
+    option = {
+        name = dvg_zhourao.508.b
         default_option = yes
 
 
 
-        hidden_effect = {
-            set_variable = dvg_southern_push_variable
-        }
+        
 
         ai_chance = {
             base = 1
@@ -3455,6 +3664,7 @@ dvg_zhourao.719 = {
 
     immediate = {
         set_variable = dvg_songyan_society_zsa
+        set_variable = dvg_songyaned
     }
 
     # And thus, the long reign is over.
@@ -3470,7 +3680,6 @@ dvg_zhourao.719 = {
             }
             set_state_religion = rel:mahayana
         }
-
         if = {
             limit = {
                 NOT = {
@@ -3513,7 +3722,7 @@ dvg_zhourao.719 = {
                 }
                 change_relations = {
                     country = ROOT
-                    value = 15
+                    value = 50
                 }
             }
         }
@@ -4056,6 +4265,7 @@ dvg_zhourao.1205 = {
         }
     }
 }
+
 #Law Enforcement Collaboration?
 dvg_zhourao.1206 = {
     type = country_event
